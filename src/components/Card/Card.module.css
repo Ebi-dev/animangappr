@@ -1,0 +1,31 @@
+ul {
+  list-style-type: none;
+}
+
+.card {
+  background-color: whitesmoke;
+  max-width: 150px;
+  max-height: 125px;
+  transition: max-height 0.15s ease-out;
+  overflow: hidden;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 1em;
+
+}
+.card:hover {
+  max-height: 500px;
+  transition: max-height 0.25s ease-in;
+  transition-delay: 500ms;
+  cursor: pointer;
+}
+
+img {
+  width: 150px;
+  min-height: 125px;
+  max-height: 125px;
+  border-radius: 0.5em;
+}

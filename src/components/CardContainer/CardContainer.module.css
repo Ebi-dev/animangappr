@@ -1,0 +1,58 @@
+ul {
+  list-style-type: none;
+}
+
+.containerContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 2em;
+  justify-content: space-evenly;
+  padding: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1488px;
+}
+
+.buttonContainer{
+  display: flex;
+  flex-direction: column;
+  max-width: 1488px;
+}
+
+.button {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: midnightblue;
+  color: whitesmoke;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /*align-content: space-between;*/
+  justify-content: space-evenly;
+}
+
+.hiddenCards {
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /*align-content: space-between;*/
+  justify-content: space-evenly;
+  /*border-radius: 2%;
+  padding: 2vh;
+  margin: 2vh;*/
+}

@@ -1,0 +1,12 @@
+.bar {
+  height: 4vh;
+  width: 26rem;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
