@@ -1,4 +1,5 @@
 const mongoose = require("../config/mongodb");
+const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
   username: {
@@ -17,6 +18,11 @@ const userSchema = mongoose.Schema({
   userInfo: String,
   favAnime: Array,
   favManga: Array,
+});
+
+userSchema.pre("save", function (next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
 });
 
 module.exports = mongoose.model("users", userSchema);
