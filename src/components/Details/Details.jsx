@@ -3,15 +3,17 @@ import styles from "./Details.module.css";
 
 export const Details = ({ closeModal, info }) => {
   return (
-    <div>
-      <div>
-        <div>
+    <div className={styles.modalBackground}>
+      .
+      <div className={styles.modalContainer}>
+        <div className={styles.closeBtn}>
           <button
             type="button"
             onClick={() => {
               closeModal(false);
             }}
-          />
+          >X
+          </button>
         </div>
         <div className={styles.basicInfo}>
           <div>
@@ -21,22 +23,26 @@ export const Details = ({ closeModal, info }) => {
             <div>
               <h2>{info.title}</h2>
             </div>
-            <div>Genres</div>
             <div>
-              <span>{info.rating}</span>
+              [genres]
             </div>
             <div>
-              <span>{info.episodes}</span>
+              <span>Rating: {info.rating}</span>
             </div>
             <div>
-              <span>{info.status}</span>
+              <span>N° of episodes: {info.episodes}</span>
+            </div>
+            <div>
+              <span>Status: {info.status}</span>
             </div>
           </div>
         </div>
         <div>
+          <span>synopsis:</span>
           <p>{info.synopsis}</p>
         </div>
       </div>
+      .
     </div>
   );
 };

@@ -1,10 +1,14 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../Card/Card";
 import styles from "./CardContainer.module.css";
+import { getById } from "../../redux/actions/actions";
 
 export const CardContainer = ({ info, openModal }) => {
   const [hidden, setHidden] = useState(true);
+  const dispatch = useDispatch();
+  const State = useSelector((state) => state);
 
   let handleHide = () => {
     setHidden(!hidden);
@@ -15,6 +19,11 @@ export const CardContainer = ({ info, openModal }) => {
     displayed = info.slice(0, 8);
   }
 
+  let selectAnimanga = async (anime) => {
+    await dispatch(getById(anime.id));
+    openModal(true);
+  };
+
   return (
     <div className={styles.containerContainer}>
       <div className={styles.container}>
@@ -22,7 +31,7 @@ export const CardContainer = ({ info, openModal }) => {
           {displayed &&
             displayed.map((anime) => {
               return (
-                <li key={anime.id}>
+                <li key={anime.id} onClick={function (){selectAnimanga(anime)}} >
                   <Card
                     title={anime.title}
                     url={anime.url}
@@ -46,7 +55,7 @@ export const CardContainer = ({ info, openModal }) => {
               if (index >= 8) {
                 return (
                   <div>
-                    <li key={anime.id}>
+                    <li key={anime.id} onClick={function (){selectAnimanga(anime)}}>
                       <Card
                         title={anime.title}
                         url={anime.url}
