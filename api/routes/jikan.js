@@ -46,6 +46,7 @@ const getCurrentSeason = async (req, res, next) => {
     if (currentSeason) {
       let final = currentSeason.data.data.map((anime) => {
         return {
+          id: anime.mal_id,
           title: anime.title,
           url: anime.url,
           rating: anime.rating,
@@ -71,6 +72,7 @@ const getUpcomingSeason = async (req, res, next) => {
     if (nextSeason) {
       let final = nextSeason.data.data.map((anime) => {
         return {
+          id: anime.mal_id,
           title: anime.title,
           url: anime.url,
           rating: anime.rating,
