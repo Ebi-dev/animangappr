@@ -18,7 +18,7 @@ export const Card = ({
   }
   return (
     <div className={styles.card}>
-      <img src={image} alt="Anime-Image" />
+      <img src={image} alt="Anime-Image" className={styles.img} />
 
       <div>
         <h5>{title}</h5>

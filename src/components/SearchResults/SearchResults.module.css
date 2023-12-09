@@ -1,0 +1,8 @@
+.resultsContainer{
+    background-color: white;
+    display: flex;
+    border-radius: 2em;
+    flex-direction: column;
+    margin: 2em;
+    padding: 1em;
+}

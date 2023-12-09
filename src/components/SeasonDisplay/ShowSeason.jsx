@@ -8,8 +8,6 @@ export const ShowSeason = ({ seasonType, openModal }) => {
   const dispatch = useDispatch();
   const State = useSelector((state) => state);
 
-  console.log(State);
-
   useEffect(() => {
     dispatch(getSeason(seasonType));
   }, []);

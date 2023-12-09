@@ -23,7 +23,7 @@ ul {
   cursor: pointer;
 }
 
-img {
+.img {
   width: 150px;
   min-height: 175px;
   max-height: 175px;
