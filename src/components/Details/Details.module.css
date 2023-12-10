@@ -3,14 +3,14 @@
   width: 100%;
   height: 100%;
   background-color: rgba(128, 128, 128, 0.273);
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modalContainer {
-  border-radius: 12px;
+  /* border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.734);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
@@ -20,10 +20,24 @@
   min-width: 50em;
   height: 30em;
   width: 50em;
-  justify-content: space-evenly;
+  justify-content: space-evenly; */
+
+  display: grid;
+  border-radius: 12px;
+  grid-template: 4.4% 60% 35%/ 1fr;
+  background-color: rgba(255, 255, 255, 0.734);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: 30.9em;
+  width: 60em;
+  padding-left: 25px;
+  padding-bottom: 25px;
+  padding-right: 15px;
+  padding-top: 10px;
 }
 
 .modalBg {
+  display: flex;
+  flex-wrap: wrap;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   min-height: 30em;
@@ -55,21 +69,38 @@
 -moz-box-shadow: 1px -2px 19px -5px rgba(0,0,0,0.75);
 }
 
+.button:hover{
+  cursor: pointer;
+}
+
 .infoCont1{
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between; */
+  display: grid;
+  grid-template: 70% /30% 70% ;
+  padding-right: 15px;
 }
+
+.infoCont1 img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* or "contain" */
+}
+
 
 .infoCont2{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   margin-top: 1em;
+
 }
 
 .title{
   display: flex;
+  flex-direction: column;
   text-align: center;
-  padding-left: 2em;
+  justify-content: center;
 }

@@ -20,16 +20,22 @@ export const ResultCards = ({
   return (
     <div className={styles.cardContainer}>
       <div className={styles.picCont}>
-        <img src={image} alt={title + "image"} className={styles.pic}/>
+        <img src={image} alt={title + "image"} className={styles.pic} />
       </div>
       <div className={styles.infoContainer}>
         <div className={styles.title}>
           <h3>{title}</h3>
         </div>
         <div className={styles.auxInfoCont}>
-          <p>{genres?.join(", ")}</p>
-          <p>{episodes} episodes</p>
-          <p>{status}</p>
+          <div>
+            <p>{genres == "" ? "N/A" : genres.join(", ")}</p>
+          </div>
+          <div>
+            <p>{episodes} episodes</p>
+          </div>
+          <div>
+            <p>{status}</p>
+          </div>
         </div>
         <div className={styles.synopsis}>
           <p>{synopsis}</p>

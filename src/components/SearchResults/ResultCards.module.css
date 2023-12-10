@@ -1,43 +1,78 @@
-.cardContainer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    max-height: 12em;
-    max-width: 75em;
-    height: 12em;
-    width: 75em;
+.cardContainer {
+  display: grid;
+  grid-template: 175px / 10em 1fr;
+  background-color: rgb(246, 246, 246);
+  margin: 10px;
+  border-radius: 1em;
+  align-items: center;
 }
 
-.infoContainer{
-    display: flex;
-    flex-direction: column;
-    max-height: 10em;
-    max-width: 70em;
+.cardContainer:hover{
+    background-color: rgb(204, 204, 204);
 }
 
-.auxInfoCont{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+.infoContainer {
+  display: grid;
+  grid-template: 40px 30px 105px / 100%;
 }
 
-.synopsis{
-    padding: 1em;
-    overflow: auto;
-    min-width: 60em;
-    text-align: center;
-}
-.title{
-    display: flex;
-    justify-content: center;
+.auxInfoCont {
+  display: grid;
+  grid-template: 100% / 1fr 1fr 1fr;
+  justify-items: center;
 }
 
-.picCont{
-    object-fit: contain;
-    max-width: 10em;
-    max-height: 10em;
+.synopsis {
+    display: grid;
+  margin: 1em;
+  overflow: auto;
+  min-width: 60em;
+  text-align: center;
+  align-items: center;
 }
-.pic{
-    max-width: 10em;
-    max-height: 10em;
+
+
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.picCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  object-fit: contain;
+  max-width: 10em;
+  max-height: 10em;
+  margin-left: 1em;
+}
+.pic {
+  max-width: 10em;
+  max-height: 10em;
+  border-radius: 1em;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(112, 112, 112, 0.8); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(112, 112, 112, 0.8); 
 }
