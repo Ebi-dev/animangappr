@@ -60,18 +60,52 @@ export const getById = (id) => {
 };
 
 export const login = (info) => {
-  return async (dispatch) => {
+  return async () => {
     let body = {
       username: info.username,
       password: info.password,
     };
     try {
-      const response = await axios.post(`http://localhost:3001/login`, body);
-      if (response !== "Usuario y/o contraseña incorrectos") {
-        alert(`logged in as ${info.username}!`);
-      } else {
-        alert("Usuario y/o contraseña incorrectos");
-      }
+      const response = await axios.post(
+        `http://localhost:3001/users/login`,
+        body, {withCredentials: true}
+      );
+      alert(`logged in as ${info.username}!`);
+      console.log(response);
+      sessionStorage.setItem("jwtToken", response.data.token);
+    } catch (e) {
+      console.log(e);
+      alert(e.response.data.message);
+    }
+  };
+};
+
+export const auth = () => {
+  const body = {
+    ssToken: sessionStorage.getItem("jwtToken"),
+  };
+  return async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/users/auth`,
+        body
+      );
+      sessionStorage.setItem("jwtToken", response.token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const register = (info) => {
+  return async () => {
+    let body = {
+      username: info.username,
+      password: info.password,
+    };
+    try {
+      const response = await axios.post(`http://localhost:3001/users`, body);
+      alert("Usuario creado correctamente");
     } catch (e) {
       console.log(e);
     }

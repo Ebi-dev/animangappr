@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
 
 module.exports = {
   create: async function (req, res, next) {
@@ -63,14 +64,70 @@ module.exports = {
         res.status(401).json({ message: "Usuario y/o contraseña incorrectos" });
       }
       if (bcrypt.compareSync(req.body.password, user.password)) {
-        const token = jwt.sign({ userId: user._id },req.app.get("secretKey"), {
+        const token = jwt.sign({ userId: user._id }, req.app.get("secretKey"), {
           expiresIn: "1h",
         });
-        res.status(201).json({ token });
+        const refreshToken = jwt.sign(
+          { userId: user._id },
+          req.app.get("secretKey"),
+          { expiresIn: "7d" }
+        );
+        res
+          .status(201)
+          .cookie("refreshToken", refreshToken, {
+            secure: false, //change both false to true when needed
+            httpOnly: false, //change both false to true when needed
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+          })
+          .json({ token });
       } else {
         res.status(401).json({ message: "Usuario y/o contraseña incorrectos" });
       }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  auth: async function (req, res, next) {
+    try {
+      if (req.body.ssToken) {
+        jwt.verify(
+          req.body.ssToken,
+          req.app.get("secretKey"),
+          (err, decoded) => {
+            if (err) {
+              const cookie = req.cookies.refreshToken;
 
+              if (cookie) {
+                jwt.verify(cookie, app.get("secretKey"), (err, decoded) => {
+                  if (err) {
+                    // Handle invalid or expired refresh token
+                    res
+                      .status(401)
+                      .json({ error: "Invalid or expired refresh token" });
+                  } else {
+                    // Generate a new JWT token
+                    const newJwtToken = jwt.sign(
+                      { userId: decoded.userId },
+                      app.get("secretKey"),
+                      { expiresIn: "1h" }
+                    );
+                    // Return the new JWT token to the client
+                    res.json({ token: newJwtToken });
+                  }
+                });
+              } else {
+                // No refresh token found, prompt user to log in
+                res.status(401).json({ error: "Refresh token not found" });
+              }
+            } else {
+              res.status(401).json({ token: req.body.ssToken });
+            }
+          }
+        );
+      } else {
+        res.json({ message: "no session storage token found!" });
+      }
     } catch (e) {
       console.log(e);
     }

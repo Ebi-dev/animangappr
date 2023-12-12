@@ -2,10 +2,13 @@ import React from "react";
 import styles from "./Navi.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Cookies from "universal-cookie";
+import {Login} from "../login/Login"
 
 export const Navi = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
+  const cookies = new Cookies();
 
   return (
     <div>
@@ -18,12 +21,10 @@ export const Navi = () => {
           Home
         </button>
         <button>opt</button>
-        <button>Login</button>
+        <button onClick={() => {setOpenModal(true)}}>Login</button>
       </nav>
       {openModal && (
-        <div className={styles.testbg}>
-          <div className={styles.test}> aaaa</div>
-        </div>
+          <Login closeModal={setOpenModal} />
       )}
     </div>
   );
