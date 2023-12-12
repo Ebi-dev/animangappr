@@ -58,3 +58,22 @@ export const getById = (id) => {
     }
   };
 };
+
+export const login = (info) => {
+  return async (dispatch) => {
+    let body = {
+      username: info.username,
+      password: info.password,
+    };
+    try {
+      const response = await axios.post(`http://localhost:3001/login`, body);
+      if (response !== "Usuario y/o contraseña incorrectos") {
+        alert(`logged in as ${info.username}!`);
+      } else {
+        alert("Usuario y/o contraseña incorrectos");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
