@@ -31,7 +31,7 @@ export const Details = ({ closeModal, info }) => {
               X
             </button>
           </div>
-          <div className={styles.uhhbox}>
+          <div>
             <div className={styles.infoCont1}>
               <div className={styles.modalImage}>
                 <img src={info.image} alt="Animanga Image" />

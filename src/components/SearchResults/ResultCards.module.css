@@ -9,6 +9,7 @@
 
 .cardContainer:hover{
     background-color: rgb(204, 204, 204);
+    cursor: pointer;
 }
 
 .infoContainer {
