@@ -33,7 +33,7 @@ module.exports = {
   getById: async function (req, res, next) {
     try {
       const document = new userModel.findById(req.params.id);
-      req.json(document);
+      res.json(document);
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +80,7 @@ module.exports = {
             sameSite: "strict",
             maxAge: 7 * 24 * 60 * 60 * 1000,
           })
-          .json({ token });
+          .json({ token, user });
       } else {
         res.status(401).json({ message: "Usuario y/o contraseña incorrectos" });
       }
@@ -90,6 +90,8 @@ module.exports = {
   },
   auth: async function (req, res, next) {
     try {
+      let decodedToken = jwt.decode(req.body.ssToken);
+      const currentUser = await auxGetById(decodedToken.userId)
       if (req.body.ssToken) {
         jwt.verify(
           req.body.ssToken,
@@ -112,8 +114,12 @@ module.exports = {
                       app.get("secretKey"),
                       { expiresIn: "1h" }
                     );
+                    console.log("current user: " + currentUser);
                     // Return the new JWT token to the client
-                    res.json({ token: newJwtToken });
+                    res.json({
+                      token: newJwtToken,
+                      user: currentUser,
+                    });
                   }
                 });
               } else {
@@ -121,15 +127,28 @@ module.exports = {
                 res.status(401).json({ error: "Refresh token not found" });
               }
             } else {
-              res.status(401).json({ token: req.body.ssToken });
+              console.log("current user: " + currentUser);
+              res.status(200).json({
+                token: req.body.ssToken,
+                user: currentUser,
+              });
             }
           }
         );
       } else {
-        res.json({ message: "no session storage token found!" });
+        res.status(401).json({ message: "no session storage token found!" });
       }
     } catch (e) {
       console.log(e);
     }
   },
 };
+
+async function auxGetById(id) {
+  try {
+    const document = await userModel.findById(id);
+    return document.username;
+  } catch (e) {
+    console.log(e);
+  }
+}

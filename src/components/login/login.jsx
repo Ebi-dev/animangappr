@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { login, register } from "../../redux/actions/actions";
 import styles from "./login.module.css";
 
-export const Login = ({ closeModal }) => {
+export const Login = ({ closeModal, setLoggedIn }) => {
   const [registerMode, setRegist] = useState(false);
   const dispatch = useDispatch();
 
@@ -14,6 +14,7 @@ export const Login = ({ closeModal }) => {
     email: "",
     userinfo: "",
     passwordConfirmation: "",
+    seePassword: false,
   });
 
   function handleChange(e) {
@@ -25,12 +26,26 @@ export const Login = ({ closeModal }) => {
     });
   }
 
-  function handleSubmit(e) {
+  function handleHide(e) {
+    setInfo((prevInfo) => {
+      return {
+        ...prevInfo,
+        [e.target.name]: !info.seePassword,
+      };
+    });
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     if (registerMode) {
       dispatch(register(info));
     } else {
-      dispatch(login(info));
+      if (dispatch(login(info))) {
+        setLoggedIn(true);
+        closeModal(false);
+      } else {
+        alert("wrong username and/or password!");
+      }
     }
   }
 
@@ -42,7 +57,7 @@ export const Login = ({ closeModal }) => {
       info.username.length <= 30 &&
       info.password.length > 3 &&
       info.password.length <= 16 &&
-      info.passwordConfirmation !== info.password
+      info.passwordConfirmation === info.password
     ) {
       setError(false);
     } else {
@@ -82,13 +97,32 @@ export const Login = ({ closeModal }) => {
               </div>
               <div>
                 <h5>Password:</h5>
-                <input
-                  type="text"
-                  name="password"
-                  id="2"
-                  maxLength={16}
-                  onChange={handleChange}
-                />
+                {!info.seePassword ? (
+                  <input
+                    type="password"
+                    name="password"
+                    id="2"
+                    maxLength={16}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name="password"
+                    id="2"
+                    maxLength={16}
+                    onChange={handleChange}
+                  />
+                )}
+                {!info.seePassword ? (
+                  <button type="button" name="seePassword" onClick={handleHide}>
+                    ver
+                  </button>
+                ) : (
+                  <button type="button" name="seePassword" onClick={handleHide}>
+                    ocultar
+                  </button>
+                )}
               </div>
               <button type="submit">Login</button>
             </form>
@@ -127,28 +161,93 @@ export const Login = ({ closeModal }) => {
                 <input
                   type="text"
                   name="username"
+                  maxLength={30}
                   id="1"
                   onChange={handleChange}
                 />
-                <span>{info.username.length} / 35</span>
+                <span>{info.username.length} / 30</span>
+                <br />
+                {error && info.username.length < 5 ? (
+                  <span style={{ color: "red", fontSize: ".7rem" }}>
+                    ⚠ Username must be between 5 and 30 characters long! ⚠
+                  </span>
+                ) : (
+                  <></>
+                )}
               </div>
               <div>
                 <h5>Password:</h5>
-                <input
-                  type="text"
-                  name="password"
-                  id="2"
-                  onChange={handleChange}
-                />
-                <span>{info.password.length} / 35</span>
+                {!info.seePassword ? (
+                  <input
+                    type="password"
+                    name="password"
+                    maxLength={16}
+                    id="2"
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name="password"
+                    maxLength={16}
+                    id="2"
+                    onChange={handleChange}
+                  />
+                )}
+                <span>{info.password.length} / 16</span>
+                {!info.seePassword ? (
+                  <button type="button" name="seePassword" onClick={handleHide}>
+                    ver
+                  </button>
+                ) : (
+                  <button type="button" name="seePassword" onClick={handleHide}>
+                    ocultar
+                  </button>
+                )}
+                <br />
+                {error && info.password.length < 4 ? (
+                  <span style={{ color: "red", fontSize: ".7rem" }}>
+                    ⚠ Password must be between 4 and 16 characters long! ⚠
+                  </span>
+                ) : (
+                  <></>
+                )}
                 <h5>Repeat Password:</h5>
-                <input
-                  type="text"
-                  name="passwordConfirmation"
-                  id="3"
-                  onChange={handleChange}
-                />
-                <span>{info.passwordConfirmation.length} / 35</span>
+                {!info.seePassword ? (
+                  <input
+                    type="password"
+                    name="passwordConfirmation"
+                    maxLength="16"
+                    id="3"
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name="passwordConfirmation"
+                    maxLength="16"
+                    id="3"
+                    onChange={handleChange}
+                  />
+                )}
+
+                <span>{info.passwordConfirmation.length} / 16</span>
+                <br />
+                {error && info.passwordConfirmation.length < 4 ? (
+                  <span style={{ color: "red", fontSize: ".7rem" }}>
+                    ⚠ Password must be between 4 and 16 characters long! ⚠
+                  </span>
+                ) : (
+                  <></>
+                )}
+                <br />
+                {error && info.password !== info.passwordConfirmation ? (
+                  <span style={{ color: "red", fontSize: ".7rem" }}>
+                    ⚠ Passwords must match! ⚠
+                  </span>
+                ) : (
+                  <></>
+                )}
               </div>
               <button type="submit" disabled={error}>
                 Register now!

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 export const searchAnime = (title) => {
   return async (dispatch) => {
@@ -60,7 +61,7 @@ export const getById = (id) => {
 };
 
 export const login = (info) => {
-  return async () => {
+  return async (dispatch) => {
     let body = {
       username: info.username,
       password: info.password,
@@ -68,14 +69,21 @@ export const login = (info) => {
     try {
       const response = await axios.post(
         `http://localhost:3001/users/login`,
-        body, {withCredentials: true}
+        body,
+        { withCredentials: true }
       );
-      alert(`logged in as ${info.username}!`);
       console.log(response);
       sessionStorage.setItem("jwtToken", response.data.token);
+      if (response.data.user) {
+        dispatch({
+          type: "SET_CURRENT_USER",
+          payload: { info: response.data.user}
+        })
+      }
+      return response.data.token;
     } catch (e) {
       console.log(e);
-      alert(e.response.data.message);
+      return false;
     }
   };
 };
@@ -86,11 +94,21 @@ export const auth = () => {
   };
   return async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:3001/users/auth`,
-        body
-      );
-      sessionStorage.setItem("jwtToken", response.token);
+      if (!body.ssToken) {
+        return false;
+      } else {
+        const response = await axios.post(
+          `http://localhost:3001/users/auth`,
+          body
+        );
+        console.log(response);
+        if (response.data.token) {
+          sessionStorage.setItem("jwtToken", response.data.token);
+          return response.data.user;
+        } else {
+          return false;
+        }
+      }
     } catch (e) {
       console.log(e);
     }

@@ -3,6 +3,7 @@ const initialState = {
   currentSeason: [],
   nextSeason: [],
   selectedAnimanga: [],
+  currentUser: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +33,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedAnimanga: action.payload,
+      };
+    }
+
+    case "SET_CURRENT_USER": {
+      return {
+        ...state,
+        currentUser: action.payload.info.username,
       };
     }
 
