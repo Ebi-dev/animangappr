@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Navi.module.css";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import { Login } from "../login/Login";

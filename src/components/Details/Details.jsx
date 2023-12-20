@@ -45,7 +45,8 @@ export const Details = ({ closeModal, info }) => {
                     <span>Rating: {info.rating}</span>
                   </div>
                   <div>
-                    <span>N° of episodes: {info.episodes}</span>
+                    {info.episodes ? <span>N° of episodes: {info.episodes}</span> : <></>}
+                    
                   </div>
                   <div>
                     <span>Status: {info.status}</span>

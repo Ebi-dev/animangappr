@@ -77,8 +77,8 @@ export const login = (info) => {
       if (response.data.user) {
         dispatch({
           type: "SET_CURRENT_USER",
-          payload: { info: response.data.user}
-        })
+          payload: { info: response.data.user },
+        });
       }
       return response.data.token;
     } catch (e) {
@@ -92,7 +92,7 @@ export const auth = () => {
   const body = {
     ssToken: sessionStorage.getItem("jwtToken"),
   };
-  return async () => {
+  return async (dispatch) => {
     try {
       if (!body.ssToken) {
         return false;
@@ -101,9 +101,13 @@ export const auth = () => {
           `http://localhost:3001/users/auth`,
           body
         );
-        console.log(response);
         if (response.data.token) {
           sessionStorage.setItem("jwtToken", response.data.token);
+          console.log("user:" + response.data.user);
+          dispatch({
+            type: "SET_CURRENT_USER",
+            payload: { info: response.data.user },
+          });
           return response.data.user;
         } else {
           return false;
