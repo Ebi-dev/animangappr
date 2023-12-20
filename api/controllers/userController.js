@@ -2,6 +2,7 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
+const { ObjectId } = require("mongodb");
 
 module.exports = {
   create: async function (req, res, next) {
@@ -40,9 +41,14 @@ module.exports = {
   },
   update: async function (req, res, next) {
     try {
+      console.log(req.body);
+      console.log(req.params.id);
       const update = await userModel.updateOne(
-        { _id: req.params.id },
-        req.body
+        { _id: ObjectId.createFromHexString(req.params.id) },
+        {
+          $set: req.body,
+          $currentDate: { lastModified: true },
+        }
       );
       res.json(update);
     } catch (e) {
@@ -91,7 +97,7 @@ module.exports = {
   auth: async function (req, res, next) {
     try {
       let decodedToken = jwt.decode(req.body.ssToken);
-      const currentUser = await auxGetById(decodedToken.userId)
+      const currentUser = await auxGetById(decodedToken.userId);
       if (req.body.ssToken) {
         jwt.verify(
           req.body.ssToken,
@@ -138,6 +144,22 @@ module.exports = {
       } else {
         res.status(401).json({ message: "no session storage token found!" });
       }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  addFav: async function (req, res, next) {
+    try {
+      console.log(req.body);
+      console.log(req.params.id);
+      const update = await userModel.updateOne(
+        { _id: ObjectId.createFromHexString(req.params.id) },
+        {
+          $addToSet: {favAnime: req.body.favAnime},
+          $currentDate: { lastModified: true },
+        }
+      );
+      res.json(update);
     } catch (e) {
       console.log(e);
     }
