@@ -125,6 +125,7 @@ module.exports = {
                     res.json({
                       token: newJwtToken,
                       user: currentUser,
+                      id: decoded.userId,
                     });
                   }
                 });
@@ -137,6 +138,7 @@ module.exports = {
               res.status(200).json({
                 token: req.body.ssToken,
                 user: currentUser,
+                id: decoded.userId,
               });
             }
           }

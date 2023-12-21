@@ -108,7 +108,7 @@ export const auth = () => {
             type: "SET_CURRENT_USER",
             payload: { info: response.data.user },
           });
-          return response.data.user;
+          return response.data;
         } else {
           return false;
         }
@@ -127,7 +127,35 @@ export const register = (info) => {
     };
     try {
       const response = await axios.post(`http://localhost:3001/users`, body);
-      alert("Usuario creado correctamente");
+      alert("User created!");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const addFav = (id, userId) => {
+  return async () => {
+    let body = {
+      favAnime: id,
+    };
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/users/favAnime/${userId}`,
+        body
+      );
+      alert("Anime added to favorites!");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getUserInfo = (id) => {
+  return async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/users/${id}`);
+      return response;
     } catch (e) {
       console.log(e);
     }
